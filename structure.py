@@ -4,6 +4,25 @@ from pprint import pprint
 import operator
 import json
 import random
+from docopt import docopt
+
+version = "0.0.1"
+cmdline = """
+Generates useful info from raw text or from previous session. 
+
+Usage:
+  structure [<filename>]
+  structure -h | --help
+  structure --version
+
+Options:
+  -h --help     Show this screen.
+  --version     Show version.
+
+Version:{0}
+""".format(version)
+
+
 
 
 def count_occurances(text, occ = None):
@@ -45,9 +64,16 @@ class TitleGenerator(object):
         return choice
 
     def shuffle_generate_title(self):
-        title_len = random.randint(1, self._title_limit)
-        title = [self.shuffle_choose() for i in xrange(title_len)]
+        tr = self.tries
+        while (tr > 0):
+            title_len = random.randint(1, self._title_limit)
+            title = [self.shuffle_choose() for i in xrange(title_len)]
+            if title not in self._rejects:
+                return title
+            tr -= 1
         return title
+ 
+
 
     def reject_title(self, title):
         if title not in self._rejects:
@@ -109,37 +135,59 @@ def like_words(title):
     return result
 
 
-with open('texts') as data_file:
-    texts = json.load(data_file)
+def generate_title(words):
+    t = TitleGenerator(words)
+    while True:
+        title = t.shuffle_generate_title()
+        print title
+        print "Is it ok[1] or not[0]:"
+        user = getch()
+        if user == '1':
+            print 'yay!'
+            break
+        else:
+            print 'rejected!'
+            t.reject_title(title)
+        likes = like_words(title)
+        map(t.like_word, likes)
+        def un_like(x):
+            return t.unlike_word(x) if x not in likes else None
+        map(un_like, title)
+    
+def main():
+    """Begin with raw text"""
+    with open('texts') as data_file:
+        texts = json.load(data_file)
 
 
-print "text count:", len(texts)
+    print "text count:", len(texts)
 
-occ = Occurance()
-c_count_occurances = partial(count_occurances, occ=occ)
-map(c_count_occurances, texts)
-t = TitleGenerator(occ.get_occurances())
-while True:
-    title = t.shuffle_generate_title()
-    print title
-    print "Is it ok[1] or not[0]:"
-    user = getch()
-    if user == '1':
-        print 'yay!'
-        break
+    occ = Occurance()
+    c_count_occurances = partial(count_occurances, occ=occ)
+    map(c_count_occurances, texts)
+
+    generate_title(occ.get_occurances())
+
+    with open('frequencies.txt', 'w') as f:
+        results = sorted(occ.get_occurances().items(),
+                         key=operator.itemgetter(1))
+        results.reverse()
+        f.write(json.dumps(results))
+
+    print 'done!'
+
+if __name__ == '__main__':
+    arguments = docopt(cmdline)
+    if arguments["<filename>"]:
+        with open(arguments["<filename>"], "r") as f:
+            data = dict(json.loads(f.read()))
+        generate_title(data)
+        with open('frequencies.txt', 'w') as f:
+            results = sorted(data.items(),
+                             key=operator.itemgetter(1))
+            results.reverse()
+            f.write(json.dumps(results))
+
     else:
-        print 'rejected!'
-        t.reject_title(title)
-    likes = like_words(title)
-    map(t.like_word, likes)
-    def un_like(x):
-        return t.unlike_word(x) if x not in likes else None
-    map(un_like, title)
-
-with open('frequencies.txt', 'w') as f:
-    results = sorted(occ.get_occurances().items(),
-                     key=operator.itemgetter(1))
-    results.reverse()
-    f.write(json.dumps(results))
-
-print 'done!'
+        main()
+    exit(0)
