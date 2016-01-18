@@ -1,0 +1,16 @@
+Goal expression description language
+
+goals define what the generation must strive for:
+	  <goal exp> ::= [[<constant>*] " "  [<placeholder>*]*]
+
+constants = words/bytes that must be present:
+	  <constant> ::= <content>
+
+placeholders define free slots for words:
+	  <placeholder> ::= "."
+
+
+
+simple example:
+       'expressions' . 'rule!' -> expressions really rule!
+

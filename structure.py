@@ -5,6 +5,7 @@ import operator
 import json
 import random
 from docopt import docopt
+from goalexp import Goal
 
 version = "0.0.1"
 cmdline = """
@@ -47,6 +48,7 @@ class Occurance(object):
 class TitleGenerator(object):
     like_acc = 100
     tries = 50
+    non_word_symbols = list("./\|;()[]{}!@#$%^&*+")
 
     def __init__(self, words, title_limit=10):
         self._words = words
@@ -73,7 +75,14 @@ class TitleGenerator(object):
             tr -= 1
         return title
  
-
+    def struct_generate_title(self, goal=""):
+        """
+        Attempt to produce title
+        with valid structure defined by a goal.
+        """
+        goal = Goal(goal)
+        goal.generate_placeholder_words()
+        return goal.compile()
 
     def reject_title(self, title):
         if title not in self._rejects:
@@ -138,7 +147,7 @@ def like_words(title):
 def generate_title(words):
     t = TitleGenerator(words)
     while True:
-        title = t.shuffle_generate_title()
+        title = t.struct_generate_title()
         print title
         print "Is it ok[1] or not[0]:"
         user = getch()
@@ -178,6 +187,7 @@ def main():
 
 if __name__ == '__main__':
     arguments = docopt(cmdline)
+    goal = ""
     if arguments["<filename>"]:
         with open(arguments["<filename>"], "r") as f:
             data = dict(json.loads(f.read()))
@@ -187,7 +197,6 @@ if __name__ == '__main__':
                              key=operator.itemgetter(1))
             results.reverse()
             f.write(json.dumps(results))
-
     else:
         main()
     exit(0)
