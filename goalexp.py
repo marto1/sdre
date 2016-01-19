@@ -1,6 +1,7 @@
 from re import split
 from random import choice
 import logging
+import structure
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
@@ -79,30 +80,58 @@ class LikeTheLetterA(GoalV2):
             logging.info("No \"a\" in this word, whatever - 0")
             return 0
 
-context = { "max_score": 5,
-            "min_score": -5,
-            "original_score": 30,
-            "word": "Bianca"}
+class ShortWords(GoalV2):
+    
+    def bounce(self, word, context):
+        if len(word) >= 3: #long words have more than 3 letters
+            logging.info("The word is too long, whatever")
+            return max(0, context["max_score"] - len(word))
+        else:
+            logging.info("The word is short, voting with max score")
+            return context["max_score"]
 
-a = MinimumBounces()
-b = LikeTheLetterA()
+class UserInput(GoalV2):
 
-def agree_on_no_less_than(number, goals, context, iterations=200):
-    goal_rep = context['original_score']
+    def bounce(self, word, context):
+        logging.info("Is {0}  ok[1] or not[0]:".format(word))
+        user = structure.getch()
+        if user == '1':
+            logging.info("User likes this word, voting up")
+            return context["max_score"]
+        else:
+            logging.info("User doesn't like this word, voting down")
+            return context["min_score"]
+        
+
+def agree_on_no_less_than(number, goals, context, iterations=100):
+    context["current_score"] = context['original_score']
     it = 0
     word = context['word']
     while True:
         r = [g.bounce(word, context) for g in goals]
-        goal_rep += sum(r)
-        if goal_rep >= number:
-            return goal_rep
+        context["current_score"] += sum(r)
+        if context["current_score"] >= number:
+            return context["current_score"]
         if it == iterations:
             logging.warning("reached iteration limit for word \"{0}\"".format(word))
-            return goal_rep
+            return context["current_score"]
         it += 1
 
+context = { "max_score": 5,
+            "min_score": -5,
+            "original_score": 30,
+            "word": "Bianca",
+            "current_score" : 30,
+            "sentence": ".  please stop using my room"}
 
-print "Score:", agree_on_no_less_than(500, [a, b], context)
+make_goals = lambda: (MinimumBounces(), LikeTheLetterA(), ShortWords())
+
+
+print "Score:", agree_on_no_less_than(500, make_goals(), context)
+
+context["word"] = "room"
+
+print "Score:", agree_on_no_less_than(500, make_goals(), context)
 
 
 #Goal.generate_placeholder_words = lambda self, tokens, index: 2
