@@ -1,6 +1,8 @@
 from re import split
 from random import choice
+import logging
 
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 class Goal(object):
     """Sentence to be generated"""
@@ -33,6 +35,75 @@ class Goal(object):
                 r = self.symbol_parse[token](tokens, index)
                 tokens[index] = r
         return tokens
+
+class GoalV2(object):
+    """
+    A more generalized goal.  Goals are going to be used as actors
+    that "bounce" words between themselves and reach an agreement.
+    Their behaviour is defined from external world and internal world.
+    The external is all variation of external conditions that
+    the goal considers. The internal is the goal specific inclinations
+    which togheter should form a "formula" for the goal. 
+
+    Goals should also lead a "conversation" with the user by telling him 
+    on why they are voting with a given score. 
+    """
+
+    def bounce(self, word, context):
+        """ Rank a word for a given context. """
+
+
+
+class MinimumBounces(GoalV2):
+
+    def __init__(self):
+        self.bounces = 0
+        self.tresh = 2
+
+    def bounce(self, word, context):
+        self.bounces += 1
+        if self.bounces >= self.tresh:
+            logging.info("Too many bounces for me, voting down")
+            return max(context["min_score"], context["max_score"] - self.bounces)
+        else:
+            logging.info("Bounces are low, voting with max score")
+            return context["max_score"]        
+
+class LikeTheLetterA(GoalV2):
+
+    def bounce(self, word, context):
+        if "a" in word:
+            logging.info("I like the letter \"a\", voting with max score")
+            return context["max_score"]
+        else:
+            logging.info("No \"a\" in this word, whatever - 0")
+            return 0
+
+context = { "max_score": 5,
+            "min_score": -5,
+            "original_score": 30,
+            "word": "Bianca"}
+
+a = MinimumBounces()
+b = LikeTheLetterA()
+
+def agree_on_no_less_than(number, goals, context, iterations=200):
+    goal_rep = context['original_score']
+    it = 0
+    word = context['word']
+    while True:
+        r = [g.bounce(word, context) for g in goals]
+        goal_rep += sum(r)
+        if goal_rep >= number:
+            return goal_rep
+        if it == iterations:
+            logging.warning("reached iteration limit for word \"{0}\"".format(word))
+            return goal_rep
+        it += 1
+
+
+print "Score:", agree_on_no_less_than(500, [a, b], context)
+
 
 #Goal.generate_placeholder_words = lambda self, tokens, index: 2
 # p = Goal(". expressions have . rules! Dude what the fuck .")
