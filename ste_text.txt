@@ -1,0 +1,47 @@
+Subject -> "AI" personality traits
+Sentence -> "AI" needs a simple set of personality primitives.  that make sense for the players and for the thematic setting of "Freeciv", as well as working well for the "AI" code. 
+
+Subject -> The "Keybase" filesystem
+Sentence -> In my folder you'll find some techie things, such as my "SSH" public keys, my "Signal" app fingerprint, and some software I've manually verified and want to distribute safely to friends.
+
+Subject -> Samsung's AdBlock fast removed from the Play Store 
+Sentence -> New submitter Alexander Maxham writes with the news reported at Android Headlines that Samsung's ad-blocking Android app called AdBlock Fast "was apparently ousted from the Play Store for violating section 4.4 of the Developer Distribution Agreement, stating that an app cannot disrupt or interfere with devices, networks or other parties' apps and services. (Also noted by Engadget.)
+
+Subject -> Researchers uncover the genetic roots behind rare vibration allergy
+Sentence -> A team of National Health Institute researchers has for the first time uncovered the genetic roots of one of the strangest allergies: vibrations.
+
+Subject -> Firefox 44 Deletes Fine-Grained Cookie Management
+Sentence -> When enabled, every time a Web site asked to set a cookie, Firefox would raise a dialog containing information about the cookie requested, which you could then approve or deny.
+
+Subject -> Marco Rubio wants to permanently extend NSA mass surveillance
+Sentence -> Marco Rubio wants Congress to permanently extend the authorities governing several of the National Security Agency's controversial spying programs, including its mass surveillance of domestic phone records.
+
+Subject -> All 12 member countries sign off on the TPP
+Sentence -> Freezenet has a quick rundown of what copyright provisions are contained in the agreement, including traffic shaping, site blocking, enforcement of copyright when infringement is "imminent," and a government mandate for ISPs to install backdoors for the purpose of tracking copyright infringement on the Internet.
+
+Subject -> Facebook celebrates turning 12 today
+Sentence -> 2 years ago today, Mark Zuckerberg launched Facebook, and since then the site has grown at a nearly unbelievable pace.
+
+Subject -> Interviews: ask 'Ubuntu Unleashed' author Matthew Helmke
+Sentence -> Matthew Helmke (personal blog) is the author of the newly published 11th edition of Ubuntu Unleashed (published by Pearson); this updated edition of the book will cover the OS through Ubuntu's 15.10 and (forthcoming) 16.04 releases.
+
+Subject -> Harnessing artificial intelligence to build an army of virtual analysts
+Sentence -> PatternEx, a startup that gathered a team of AI researcher from MIT CSAIL as well as security and distributed systems experts, is poised to shake up things in the user and entity behavior analytics market
+
+Subject -> Canonical reveals the bq aquaris M10 Ubuntu table
+Sentence -> Several tech sites have now broke the news that Canonical has revealed their BQ Aquaris M10 Ubuntu Tablet. Joey-Elijah Sneddon builds the hype: "A stunning 10.1-inch IPS touch display powered a full HD 1920×1200 pixel resolution at 240 ppi.
+
+Subject -> Beyond the Liberator: A 3D-printed plastic 9mm semi-auto pistol
+Sentence -> Profiled at Ars Technica is the (mostly) 3D-printed semi-auto pistol design from a West Virginia maker known as Derwood.
+
+Subject -> Former DoE employee ensnared by secret-selling sting pleads guilty 
+Sentence -> A former Energy Department employee accused of attempting to infiltrate the agency's computer system to steal nuclear secrets and sell them to a foreign government pleaded guilty Tuesday to a reduced charge of attempting to damage protected government computers in an email "spear-phishing attack."
+
+Subject -> Torrents Time lets anyone launch their own web version of Popcorn Time
+Sentence -> Popcorn Time, an app for streaming video torrents, just got its own web version: Popcorn Time Online.
+
+Subject -> Ask Slashdot: fixing UVC camera issues under Windows?
+Sentence -> I bought some cheap Chinese camera glasses with built-in microphones.
+
+Subject -> Open Source pioneer Michael Tiemann on the myth of the average
+Sentence -> In a recent article, Michael Tiemann, one of the world's first open source entrepreneurs and VP of Open Source Affairs at Red Hat, highlights an example from the 1950s US Air Force where the "myth of the average resulted in a generation of planes that almost no pilots could reliably fly, and which killed as many as 17 pilots in a single day."
